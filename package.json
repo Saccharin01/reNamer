@@ -14,7 +14,7 @@
       "node18-win-x64"
     ],
     "outputPath": "build",
-    "bin": "dist/rename.js"
+    "bin": "dist/app.js"
   },
   "keywords": [],
   "author": "",
