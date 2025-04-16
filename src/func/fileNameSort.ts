@@ -26,6 +26,8 @@ export const fileNameSort = (targetDir: string, nameSpace: number): void => {
    * todo 위 예시에서 나는 100a-00, 101a-01, a101-0, a112-1, a123-1, a123-2, a123-10 처럼 정렬된 다음 파일 이름이 변경되길 희망함.
    */
 
+  //? 자연정렬?
+
   const getNumber = (filename: string): number => {
     const baseName = path.basename(filename, path.extname(filename));
     const match = baseName.match(/\d+/);
