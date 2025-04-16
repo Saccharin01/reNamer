@@ -1,0 +1,28 @@
+{
+  "name": "rename",
+  "version": "1.0.0",
+  "main": "rename.js",
+  "bin": "rename.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/rename.js"
+  },
+  "pkg": {
+    "scripts": "dist",
+    "assets": [],
+    "targets": [
+      "node18-win-x64"
+    ],
+    "outputPath": "build",
+    "bin": "dist/rename.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "pkg": "^5.8.1",
+    "typescript": "^5.8.3"
+  }
+}
