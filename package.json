@@ -5,7 +5,8 @@
   "bin": "./dist/app.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/rename.js"
+    "start": "node dist/rename.js",
+    "pkg": "npm run build && npx pkg ."
   },
   "pkg": {
     "scripts": "dist",
