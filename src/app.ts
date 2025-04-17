@@ -25,7 +25,7 @@ async function mainLoop(): Promise<void> {
         parsed = parsedNum;
         break;
       } else {
-        console.log("❌ 유효하지 않은 숫자입니다. 다시 입력해주세요.");
+        console.log("유효하지 않은 숫자입니다. 다시 입력해주세요.");
       }
     }
 
@@ -34,17 +34,25 @@ async function mainLoop(): Promise<void> {
     console.log(`\n  경로: ${resolvedPath}\n`);
     console.log(`  자릿수: ${parsed}자리\n\n`);
 
-    const pressToStart = await utilQuestion(
-      "입력 내용이 올바른가요? 잘못되었으면 'n'을 입력해 처음부터 다시 시작하세요. (Enter = 계속 진행): "
-    );
-
-    if (pressToStart.toLowerCase() === "n") {
-      console.clear()
-      console.log("처음으로 돌아갑니다.\n");
-      continue;
+    while (true) {
+      const pressToStart = await utilQuestion("입력 내용이 올바른가요? 'n'을 입력하면 다시 확인합니다. (Enter = 계속 진행): ");
+      const normalized = pressToStart.trim().toLowerCase();
+    
+      if (normalized === "n") {
+        console.log("다시 확인을 진행합니다.\n");
+        continue;
+      }
+    
+      if (normalized !== "") {
+        console.clear();
+        console.log("잘못된 입력입니다. 'n' 또는 Enter만 입력 가능합니다.\n");
+        continue;
+      }
+    
+      // ✅ 올바른 입력: 빈 문자열(Enter)
+      fileNameSortRecursive(resolvedPath, parsed);
+      break;
     }
-
-    fileNameSortRecursive(resolvedPath, parsed);
   }
 }
 
