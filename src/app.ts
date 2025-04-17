@@ -1,52 +1,51 @@
-/**
- * todo
- * 엔트리 파일. 이 파일에서는 모듈화 된 함수들을 모아 의도된 기능을 수행할 수 있도록 한다.
- */
-
-import rl from "readline";
 import path from "path";
+import { utilQuestion, rl } from "./func/utilQuestion";
+import filenameSortRecursive from "./func/filenameSortRecursive";
 
-const readLineInterface = rl.createInterface(
-  {
-    input : process.stdin,
-    output : process.stdout
-  }
-)
-
-
-function askDirectoryPath() {
-  readLineInterface.question("디렉토리 경로를 입력하세요 (종료하려면 'exit' 입력): ", (inputPath) => {
-    const trimmedPath = inputPath.trim().replace(/^"(.*)"$/, "$1");
-    if (trimmedPath.toLowerCase() === "exit") {
-      readLineInterface.close();
-      return;
+async function mainLoop(): Promise<void> {
+  while (true) {
+    const dirInput = await utilQuestion("📁 디렉토리 경로를 입력하세요 (종료하려면 'exit' 또는 'e' 입력): ");
+    if (dirInput.toLowerCase() === "exit" || dirInput.toLowerCase() === "e") {
+      rl.close();
+      break;
     }
 
-    const resolvedPath = path.resolve(trimmedPath);
+    const resolvedPath = path.resolve(dirInput);
+    let parsed: number = 1;
 
-    askNameSpace(resolvedPath);
-  });
+    while (true) {
+      const digitInput = await utilQuestion("자릿수를 입력하세요 (기본값 1, 1 ~ 9): ");
+    
+      if (digitInput === "") {
+        break;
+      }
+    
+      const parsedNum = parseInt(digitInput, 10);
+      if (!isNaN(parsedNum) && parsedNum >= 1 && parsedNum <= 9) {
+        parsed = parsedNum;
+        break;
+      } else {
+        console.log("❌ 유효하지 않은 숫자입니다. 다시 입력해주세요.");
+      }
+    }
+
+    console.clear()
+
+    console.log(`\n  경로: ${resolvedPath}\n`);
+    console.log(`  자릿수: ${parsed}자리\n\n`);
+
+    const pressToStart = await utilQuestion(
+      "입력 내용이 올바른가요? 잘못되었으면 'n'을 입력해 처음부터 다시 시작하세요. (Enter = 계속 진행): "
+    );
+
+    if (pressToStart.toLowerCase() === "n") {
+      console.clear()
+      console.log("처음으로 돌아갑니다.\n");
+      continue;
+    }
+
+    filenameSortRecursive(resolvedPath, parsed);
+  }
 }
 
-function askNameSpace(resolvedPath: string) {
-  readLineInterface.question("몇 자리 숫자로 지정하실건가요? 자릿수를 입력하세요 (1 ~ 9): ", (inputNum) => {
-    const trimmed = inputNum.trim();
-    const parsed = parseInt(trimmed);
-
-    if (isNaN(parsed) || parsed <= 0 || 9 < parsed) {
-      console.log("유효하지 않은 숫자입니다. 다시 입력해주세요.");
-      return askNameSpace(resolvedPath);
-    } 
-
-    console.log(`경로 : ${resolvedPath}`);
-    console.log(`${parsed}자리 숫자`);
-
-    // fileNameSort(resolvedPath, parsed);
-
-    // 다음 입력을 계속 받기 위해 다시 시작
-    askDirectoryPath();
-  });
-}
-
-// 시작
-askDirectoryPath();
+mainLoop();
