@@ -1,6 +1,6 @@
 import path from "path";
 import { utilQuestion, rl } from "./func/utilQuestion";
-import filenameSortRecursive from "./func/filenameSortRecursive";
+import fileNameSortRecursive from "./func/fileNameSortRecursive";
 
 async function mainLoop(): Promise<void> {
   while (true) {
@@ -44,7 +44,7 @@ async function mainLoop(): Promise<void> {
       continue;
     }
 
-    filenameSortRecursive(resolvedPath, parsed);
+    fileNameSortRecursive(resolvedPath, parsed);
   }
 }
 
