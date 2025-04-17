@@ -1,8 +1,13 @@
-import fileNameSort from "./fileNameSort"
-import fs from "fs"
-import path from "path"
+import fileNameSort from "./fileNameSort";
+import fs from "fs";
+import path from "path";
 
-const fileNameSortRecursive = (basePath : string, nameSpace: number) => {
+/**
+ * 루트 디렉토리 자체의 파일은 무시하고, 하위 디렉토리부터 재귀적으로 파일 이름을 변경합니다.
+ * @param basePath 루트 경로
+ * @param nameSpace 숫자 자리 수
+ */
+const fileNameSortRecursive = (basePath: string, nameSpace: number): void => {
   if (!fs.existsSync(basePath)) {
     console.clear();
     console.error(`경로 "${basePath}"가 존재하지 않습니다.\n`);
@@ -15,15 +20,15 @@ const fileNameSortRecursive = (basePath : string, nameSpace: number) => {
     return;
   }
 
-  fileNameSort(basePath,nameSpace);
-
   const children = fs.readdirSync(basePath);
   children.forEach((childName) => {
     const fullPath = path.join(basePath, childName);
+
     if (fs.statSync(fullPath).isDirectory()) {
-      fileNameSortRecursive(fullPath,nameSpace);
+      fileNameSort(fullPath, nameSpace);               // ✅ 하위 디렉토리 내 파일 리네이밍
+      fileNameSortRecursive(fullPath, nameSpace);      // ✅ 재귀 탐색
     }
   });
 };
 
-export default fileNameSortRecursive
+export default fileNameSortRecursive;
