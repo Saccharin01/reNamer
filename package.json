@@ -2,7 +2,7 @@
   "name": "rename",
   "version": "1.0.0",
   "main": "rename.js",
-  "bin": "rename.js",
+  "bin": "./dist/app.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/rename.js"
@@ -14,7 +14,7 @@
       "node18-win-x64"
     ],
     "outputPath": "build",
-    "bin": "dist/app.js"
+    "bin": "./dist/app.js"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +24,8 @@
     "@types/node": "^22.14.1",
     "pkg": "^5.8.1",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "natsort": "^2.0.3"
   }
 }
